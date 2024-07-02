@@ -1,9 +1,11 @@
 from src import masks, widget
 # from src import widget
 
-print(masks.get_mask_card_number(2202567890234554))
-print(masks.get_mask_account(73654108430135874305))
+# Задача 1 в модуле 2
+# print(masks.get_mask_card_number(2202567890234554))
+# print(masks.get_mask_account(73654108430135874305))
 
+# Задача 2 в модуле 2
 inp_card_or_account = ['Visa Platinum 7000 7922 8960 6361',
                        'Maestro 1596837868705199',
                        'Счет 64686473678894779589',
@@ -16,3 +18,5 @@ inp_card_or_account = ['Visa Platinum 7000 7922 8960 6361',
 
 for i in inp_card_or_account:
     print(widget.mask_account_card(i))
+
+print(widget.get_date("2024-03-11T02:26:18.671407"))
