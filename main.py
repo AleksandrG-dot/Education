@@ -13,7 +13,7 @@ for item in processing.filter_by_state(transaction_list):
 for item in processing.filter_by_state(transaction_list, state="CANCELED"):
     print(item)
 print()
-for item in processing.sort_by_date(transaction_list, reverse=False):
+for item in processing.sort_by_date(transaction_list, reverse=True):
     print(item)
 
 # Задача 2 в модуле 2
