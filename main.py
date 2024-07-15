@@ -61,7 +61,6 @@ transactions = [
               "to": "Счет 75651667383060284188"
        }]
 
-
 usd_transactions = generators.filter_by_currency(transactions, "USD")
 try:
     for _ in range(2):
@@ -73,6 +72,9 @@ try:
     for _ in range(5):
         print(next(descriptions))
 except: pass
+
+for card_number in generators.card_number_generator(8, 10):
+    print(card_number)
 
 # Задача 3 в модуле 2
 # from src import processing

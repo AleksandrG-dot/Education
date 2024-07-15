@@ -6,10 +6,13 @@ def filter_by_currency(transactions_list, currency):
             transactions_list,
         )
     )
-    if not transactions_list or len(list(filtered_transactions)) == 0:
+    print(filtered_transactions)
+    if not transactions_list or len(filtered_transactions) == 0:
         yield "Нет транзакций в указанной валюте"
+
     for item in filtered_transactions:
         yield item
+    # return iter(filtered_transactions)
 
 
 def transaction_descriptions(transactions_list):
