@@ -8,3 +8,9 @@ def filter_by_currency(transactions_list: list[dict], currency: str) -> list[dic
         yield "Нет транзакций в указанной валюте"
     for item in filtered_transactions:
         yield item
+
+
+def transaction_descriptions(transactions_list: list[dict]) -> str:
+    """Генератор, возвращающий описание операции транзакции по очереди"""
+    for item in (description.get("description") for description in transactions_list):
+        yield item

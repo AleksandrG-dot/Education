@@ -56,17 +56,23 @@ transactions = [
                       "code": "USD"
                   }
               },
-              "description": "Перевод со счета на счет",
+              "description": "Перевод с карты на карту",
               "from": "Счет 19708645243227258542",
               "to": "Счет 75651667383060284188"
        }]
-usd_transactions = generators.filter_by_currency(transactions, "RUB")
 
+
+usd_transactions = generators.filter_by_currency(transactions, "USD")
 try:
     for _ in range(2):
         print(next(usd_transactions))
 except: pass
 
+try:
+    descriptions = generators.transaction_descriptions(transactions)
+    for _ in range(5):
+        print(next(descriptions))
+except: pass
 
 # Задача 3 в модуле 2
 # from src import processing
