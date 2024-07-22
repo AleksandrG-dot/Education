@@ -1,0 +1,1 @@
+decor_file error: ZeroDivisionError. Inputs: (10, 0), {}
