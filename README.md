@@ -54,6 +54,29 @@ typing_extensions==4.12.2
 - get_date( datе ) - конвертирует время из формата ISO 8601 в ДД.ММ.ГГГГ  
 `widget.get_date("2024-03-11T02:26:18.671407") -> "11.03.2024"`
 
+### Модуль generators
+- filter_by_currency(<transaction_list>, <currency>) - функция-генератор, фильтрующая список транзакций по ключу "currency"  
+
+`usd_transactions = generators.filter_by_currency(transactions, "USD")`  
+`try:`
+`for _ in range(2):`  
+`print(next(usd_transactions))`  
+`except:`  
+`pass`
+- transaction_descriptions(<transaction_list>) - функция-генератор, возвращающий описание операции транзакции согласно порядку в списке
+
+`try:`
+`descriptions = generators.transaction_descriptions(transactions)`   
+`for _ in range(5):`
+`print(next(descriptions))`
+`except:`
+`pass`
+- card_number_generator(<start>, <stop>) - функция-генератор, возвращающая диапазон карт между start и stop согласно маске "XXXX XXXX XXXX XXXX"  
+ 
+`for card_number in generators.card_number_generator(8, 10):`  
+ `print(card_number)`
+
+
 ## Тестирование
 Модуль тестирования: pytest==8.2.2  
 Количество тестов: 50  
