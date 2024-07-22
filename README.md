@@ -76,10 +76,17 @@ typing_extensions==4.12.2
 `for card_number in generators.card_number_generator(8, 10):`  
  `print(card_number)`
 
+### Модуль decorators
+- декоратор логов `@log` (в файл или терминал)   
+
+`@log  
+def example_function(a, b)  
+...`
+
 
 ## Тестирование
 Модуль тестирования: pytest==8.2.2  
-Количество тестов: 50  
-Code coverage: 100%
+Количество тестов: 60  
+Code coverage: 99%
 
 
