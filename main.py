@@ -1,12 +1,23 @@
+# Задача 1 в модуле 3 (homework 12.1)
+from src.utils import downloading_financial_transaction_data
+
+assert downloading_financial_transaction_data(r'data\operations.json')[1] == {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364', 'operationAmount': {'amount': '8221.37', 'currency': {'name': 'USD', 'code': 'USD'}}, 'description': 'Перевод организации', 'from': 'MasterCard 7158300734726758', 'to': 'Счет 35383033474447895560'}
+
+
+# for item in downloading_financial_transaction_data(r'data\operations.json'):
+#     print(item)
+
+#------------------------------------------------------------------------------
+
+
 # Задача 5 в модуле 2
-from src.decorators import log
-
-@log()
-def tst_func(x, y):
-    return x / y
-
-
-print(tst_func(10, 5))
+# from src.decorators import log
+#
+# @log()
+# def tst_func(x, y):
+#     return x / y
+#
+# print(tst_func(10, 5))
 
 
 #
