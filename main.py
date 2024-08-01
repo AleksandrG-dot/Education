@@ -1,14 +1,30 @@
 # Задача 1 в модуле 3 (homework 12.1)
-from src.utils import downloading_financial_transaction_data
+from src.utils import downloading_financial_transaction_data, get_amount
 
-assert downloading_financial_transaction_data(r'data\operations.json')[1] == {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364', 'operationAmount': {'amount': '8221.37', 'currency': {'name': 'USD', 'code': 'USD'}}, 'description': 'Перевод организации', 'from': 'MasterCard 7158300734726758', 'to': 'Счет 35383033474447895560'}
-
-
+print(downloading_financial_transaction_data(r'data\operations.json')[10])
 # for item in downloading_financial_transaction_data(r'data\operations.json'):
 #     print(item)
+print('-'*30)
 
-#------------------------------------------------------------------------------
+transac =   {
+    "id": 441945886,
+    "state": "EXECUTED",
+    "date": "2019-08-26T10:50:58.294041",
+    "operationAmount": {
+      "currency": {
+        "name": "USD",
+        "code": "USD"
+      }
+    },
+    "description": "Перевод организации",
+    "from": "Maestro 1596837868705199",
+    "to": "Счет 64686473678894779589"
+  }
+# transac = []
+print(get_amount(transac))
 
+
+# ------------------------------------------------------------------------------
 
 # Задача 5 в модуле 2
 # from src.decorators import log
@@ -18,7 +34,6 @@ assert downloading_financial_transaction_data(r'data\operations.json')[1] == {'i
 #     return x / y
 #
 # print(tst_func(10, 5))
-
 
 #
 # # Задача 4 в модуле 2
@@ -137,7 +152,6 @@ assert downloading_financial_transaction_data(r'data\operations.json')[1] == {'i
 #     print(widget.mask_account_card(i))
 #
 # print(widget.get_date("2024-03-11T02:26:18.671407"))
-
 
 # Задача 1 в модуле 2
 # from src import masks
