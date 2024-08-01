@@ -1,28 +1,22 @@
 # Задача 1 в модуле 3 (homework 12.1)
 from src.utils import downloading_financial_transaction_data, get_amount
 
-print(downloading_financial_transaction_data(r'data\operations.json')[10])
+print(downloading_financial_transaction_data(r"data\operations.json")[10])
 # for item in downloading_financial_transaction_data(r'data\operations.json'):
 #     print(item)
-print('-'*30)
+print("-" * 30)
 
-transac =   {
+transac = {
     "id": 441945886,
     "state": "EXECUTED",
     "date": "2019-08-26T10:50:58.294041",
-    "operationAmount": {
-      "currency": {
-        "name": "USD",
-        "code": "USD"
-      }
-    },
+    "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
     "description": "Перевод организации",
     "from": "Maestro 1596837868705199",
-    "to": "Счет 64686473678894779589"
-  }
+    "to": "Счет 64686473678894779589",
+}
 # transac = []
 print(get_amount(transac))
-
 
 # ------------------------------------------------------------------------------
 
