@@ -18,6 +18,7 @@ charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
 coverage==7.6.0
+et-xmlfile==1.1.0
 flake8==7.1.0
 idna==3.7
 iniconfig==2.0.0
@@ -25,7 +26,10 @@ isort==5.13.2
 mccabe==0.7.0
 mypy==1.11.1
 mypy-extensions==1.0.0
+numpy==2.1.0
+openpyxl==3.1.5
 packaging==24.1
+pandas==2.2.2
 pathspec==0.12.1
 platformdirs==4.2.2
 pluggy==1.5.0
@@ -33,9 +37,13 @@ pycodestyle==2.12.0
 pyflakes==3.2.0
 pytest==8.3.2
 pytest-cov==5.0.0
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
+pytz==2024.1
 requests==2.32.3
+six==1.16.0
 typing_extensions==4.12.2
+tzdata==2024.1
 urllib3==2.2.2
 
 *Для установки зависимостей выполните команду:  
@@ -93,6 +101,10 @@ def example_function(a, b)
 - downloading_financial_transaction_data - читает JSON-файл и возвращает список словарей с транзакциями
 - get_amount - возвращает сумму транзакции в рублях по текущему курсу
 
+### Модуль reading_data
+- read_financial_transactions_csv(<path>) - читает CSV-файл и возвращает список словарей с транзакциями
+- read_financial_transactions_excel(<path>) - читает Excel-файл и возвращает список словарей с транзакциями
+
 ## Логирование
 - Модуль masks   
  Путь хранения логов: logs\masks.log
@@ -111,8 +123,8 @@ Messege формируется в формате:
 2024-08-11 14:33:33,314-src.masks-INFO: Запуск функции маскировки нормера карты get_mask_card_number
 
 ## Тестирование
-Модуль тестирования: pytest==8.2.2  
-Количество тестов: 67  
+Модуль тестирования: pytest==8.3.2  
+Количество тестов: 73  
 Code coverage: 99%
 
 
