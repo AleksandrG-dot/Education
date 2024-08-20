@@ -1,3 +1,11 @@
+#Задача 3 в модуле 3 - создание функций для считывания финансовых операций из csv (homework 13.1)
+from src.reading_data import read_financial_transactions_csv
+
+result = read_financial_transactions_csv(r'data\transactions.csv')
+print(result[0])
+
+
+
 # Задача 2 в модуле 3 - логгирование модулей utils и masks
 # СДЕЛАНО. Проверено тестами.
 
