@@ -1,8 +1,10 @@
 #Задача 3 в модуле 3 - создание функций для считывания финансовых операций из csv (homework 13.1)
-from src.reading_data import read_financial_transactions_csv
+from src.reading_data import read_financial_transactions_csv, read_financial_transactions_excel
 
-result = read_financial_transactions_csv(r'data\transactions.csv')
+# result = read_financial_transactions_csv(r'data\transactions.cs')
+result = read_financial_transactions_excel(r'data\transactions_excel.xlsx')
 print(result[0])
+
 
 
 
