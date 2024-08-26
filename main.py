@@ -1,12 +1,36 @@
-#Задача 3 в модуле 3 - создание функций для считывания финансовых операций из csv (homework 13.1)
-from src.reading_data import read_financial_transactions_csv, read_financial_transactions_excel
+# Задачи 4 в модуле 3 - homework 13.2
+# Задача 1
+# Напишите функцию, которая будет принимать список словарей с данными о банковских операциях и
+# строку поиска, а возвращать список словарей, у которых в описании есть данная строка. При
+# реализации этой функции можно использовать библиотеку re для работы с регулярными выражениями.
+# Расположение новой функции в структуре проекта определите самостоятельно.
 
-# result = read_financial_transactions_csv(r'data\transactions.cs')
-result = read_financial_transactions_excel(r'data\transactions_excel.xlsx')
-print(result[0])
+from src.utils import downloading_financial_transaction_data
+from src import processing
+
+transactions = downloading_financial_transaction_data(r"data\operations.json")
+filtred_transactions = processing.filter_by_description(transactions, 'ОткрытиЕ')
+print(([i['id'] for i in filtred_transactions]))
+
+# Задача 2
+# Напишите функцию, которая будет принимать список словарей с данными о банковских операциях и
+# список категорий операций, а возвращать словарь, в котором ключи — это названия категорий, а
+# значения — это количество операций в каждой категории.
+# Категории операций хранятся в поле description.
+# Расположение новой функции в структуре проекта определите самостоятельно.
 
 
 
+# ------------------------------------------------------------------------------
+
+# #Задача 3 в модуле 3 - создание функций для считывания финансовых операций из csv (homework 13.1)
+# from src.reading_data import read_financial_transactions_csv, read_financial_transactions_excel
+#
+# # result = read_financial_transactions_csv(r'data\transactions.cs')
+# result = read_financial_transactions_excel(r'data\transactions_excel.xlsx')
+# print(result[0])
+
+# ------------------------------------------------------------------------------
 
 # Задача 2 в модуле 3 - логгирование модулей utils и masks
 # СДЕЛАНО. Проверено тестами.
