@@ -1,7 +1,3 @@
-
-
-
-
 # Задачи 4 в модуле 3 - homework 13.2
 # Задача 1
 # Напишите функцию, которая будет принимать список словарей с данными о банковских операциях и
@@ -9,12 +5,13 @@
 # реализации этой функции можно использовать библиотеку re для работы с регулярными выражениями.
 # Расположение новой функции в структуре проекта определите самостоятельно.
 
-from src.utils import downloading_financial_transaction_data
-from src import processing
+# from src.utils import downloading_financial_transaction_data
+# from src import processing
+#
+# transactions = downloading_financial_transaction_data(r"data\operations.json")
+# filtred_transactions = processing.filter_by_description(transactions, 'ОткрытиЕ')
+# print(([i['id'] for i in filtred_transactions]))
 
-transactions = downloading_financial_transaction_data(r"data\operations.json")
-filtred_transactions = processing.filter_by_description(transactions, 'ОткрытиЕ')
-print(([i['id'] for i in filtred_transactions]))
 
 # Задача 2
 # Напишите функцию, которая будет принимать список словарей с данными о банковских операциях и
@@ -24,6 +21,12 @@ print(([i['id'] for i in filtred_transactions]))
 # Расположение новой функции в структуре проекта определите самостоятельно.
 
 
+# from src.utils import downloading_financial_transaction_data
+# from src import processing
+#
+# transactions = downloading_financial_transaction_data(r"data\operations.json")
+#
+# print(processing.category_counter(transactions, ["Открытие вклада", "Перевод с карты на счет", "Перевод с карты на карту"]))
 
 # ------------------------------------------------------------------------------
 

@@ -60,6 +60,8 @@ urllib3==2.2.2
 ### Модуль processing
 - filter_by_state(<transaction_list>) - фильтрует список транзакций по ключу state (по умолчанию, EXECUTED)
 - sort_by_date(<transaction_list>) - сортирует список транзакций по дате совершения (по умолчанию - убывание)
+- filter_by_description(<transaction_list>, <str_for_search_in_description>) - фильтрует список транзакций по ключу description
+- category_counter(<transaction_list>, <counters>) - счетает количества указанных в списке <counters> категорий
 
 ### Модуль widget
 - mask_account_card(<card_or_account>) - возвращает маскированный счет или карту  
@@ -123,8 +125,8 @@ Messege формируется в формате:
 2024-08-11 14:33:33,314-src.masks-INFO: Запуск функции маскировки нормера карты get_mask_card_number
 
 ## Тестирование
-Модуль тестирования: pytest==8.3.2  
-Количество тестов: 73  
-Code coverage: 99%
+Модуль тестирования: pytest==8.3.2
+Количество тестов: 75
+Code coverage: 98%
 
 
