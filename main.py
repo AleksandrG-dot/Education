@@ -1,170 +1,123 @@
-#Задача 3 в модуле 3 - создание функций для считывания финансовых операций из csv (homework 13.1)
+from src import generators, processing, widget
 from src.reading_data import read_financial_transactions_csv, read_financial_transactions_excel
-
-# result = read_financial_transactions_csv(r'data\transactions.cs')
-result = read_financial_transactions_excel(r'data\transactions_excel.xlsx')
-print(result[0])
+from src.utils import downloading_financial_transaction_data
 
 
+def data_transformation(transactions: list[dict]) -> list[dict]:
+    result = []
+    for i in transactions:
+        tmp_dict = {
+            "id": i.get("id"),
+            "state": i.get("state"),
+            "date": i.get("date"),
+            "operationAmount": {
+                "amount": i.get("amount"),
+                "currency": {"name": i.get("currency_name"), "code": i.get("currency_code")},
+            },
+            "description": i.get("description"),
+            "from": i.get("from"),
+            "to": i.get("to"),
+        }
+        result.append(tmp_dict)
+    return result
 
 
-# Задача 2 в модуле 3 - логгирование модулей utils и masks
-# СДЕЛАНО. Проверено тестами.
+def main():
+    print(
+        """Привет! Добро пожаловать в программу работы с банковскими транзакциями.
+Выберите необходимый пункт меню:
+1. Получить информацию о транзакциях из JSON-файла
+2. Получить информацию о транзакциях из CSV-файла
+3. Получить информацию о транзакциях из XLSX-файла
+"""
+    )
+    output_text = ""
+    while not output_text:
+        user_answer = input("> ")
+        if user_answer == "1":
+            output_text = "JSON-файл"
+            data = downloading_financial_transaction_data(r"data\operations.json")
+        elif user_answer == "2":
+            output_text = "CSV-файл"
+            data = read_financial_transactions_csv(r"data\transactions.csv")
+            data = data_transformation(data)
+        elif user_answer == "3":
+            output_text = "XLSX-файл"
+            data = read_financial_transactions_excel(r"data\transactions_excel.xlsx")
+            data = data_transformation(data)
+    print(f"\nДля обработки выбран {output_text}\n")
 
-# ------------------------------------------------------------------------------
+    # Запрос статуса фильтрации и фльтрация
+    while True:
+        print(
+            """Введите статус, по которому необходимо выполнить фильтрацию.
+Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n"""
+        )
+        user_answer = input("> ").upper()
+        if user_answer in ["EXECUTED", "CANCELED", "PENDING"]:
+            break
+        else:
+            print(f'Статус операции "{user_answer}" недоступен.')
+    print(f'Операции отфильтрованы по статусу "{user_answer}"\n')
+    data = processing.filter_by_state(data, user_answer)
 
-# Задача 1 в модуле 3 (homework 12.1)
-# from src.utils import downloading_financial_transaction_data, get_amount
-#
-# print(downloading_financial_transaction_data(r"data\operations.json")[10])
-# # for item in downloading_financial_transaction_data(r'data\operations.json'):
-# #     print(item)
-# print("-" * 30)
-#
-# transac = {
-#     "id": 441945886,
-#     "state": "EXECUTED",
-#     "date": "2019-08-26T10:50:58.294041",
-#     "operationAmount": {"amount": "31957.58", "currency": {"name": "руб.", "code": "RUB"}},
-#     "description": "Перевод организации",
-#     "from": "Maestro 1596837868705199",
-#     "to": "Счет 64686473678894779589",
-# }
-# # transac = []
-# print(get_amount(transac))
+    # Запрос сортировки по дате (по возрастанию (1) / по убыванию (2))
+    user_answer = ""
+    while user_answer not in ["да", "нет"]:
+        user_answer = input("Отсортировать операции по дате? Да/Нет ").lower()
+    if user_answer == "да":
+        while user_answer not in ["1", "2", "по возрастанию", "по убыванию"]:
+            user_answer = input("Отсортировать по возрастанию (1) или по убыванию (2)?  ").lower()
+        if user_answer == "1" or user_answer == "по возрастанию":
+            data = processing.sort_by_date(data, False)
+        else:
+            data = processing.sort_by_date(data)
 
-# ------------------------------------------------------------------------------
+    # Запрос фильтрации по валюте RUB и фильтрация
+    user_answer = ""
+    while user_answer not in ["да", "нет"]:
+        user_answer = input("Выводить только рублевые тразакции? Да/Нет ").lower()
+    if user_answer == "да":
+        data_rub = []
+        for item in generators.filter_by_currency(data, "RUB"):
+            data_rub.append(item)
+        data = data_rub
+        data_rub = []
+        if data[0] == "Нет транзакций в указанной валюте":
+            data = []
 
-# Задача 5 в модуле 2
-# from src.decorators import log
-#
-# @log()
-# def tst_func(x, y):
-#     return x / y
-#
-# print(tst_func(10, 5))
+    # Запрос на фильтрацию по слову в описании транзакции и фильтрация
+    user_answer = ""
+    while user_answer not in ["да", "нет"] and data != []:
+        user_answer = input(
+            "Отфильтровать список транзакций по определенному слову в описании? Да/Нет "
+        ).lower()
+    if user_answer == "да":
+        print("Укажите слово для фильтра по описанию: ")
+        user_answer = input("> ")
+        data = processing.filter_by_description(data, user_answer)
+    if data:
+        print(f"\nВсего банковских операций в выборке: {len(data)}\n")
+        for transaction in data:
+            # time_transaction = datetime.datetime.strptime(transaction.get('date').split('T')[0], '%Y-%m-%d')
+            # print(f'{time_transaction.strftime('%d.%m.%Y')} {transaction.get('description')}')
+            print(f"{widget.get_date(transaction.get('date'))} {transaction.get('description')}")
+            if transaction.get("description") == "Открытие вклада":
+                print(widget.mask_account_card(transaction.get("to")))
+            else:
+                print(
+                    widget.mask_account_card(transaction.get("from"))
+                    + " -> "
+                    + widget.mask_account_card(transaction.get("to"))
+                )
+            print(
+                f"Сумма: {transaction.get('operationAmount').get('amount')} \
+{transaction.get('operationAmount').get('currency').get('name')}"
+            )
+            print()
+    else:
+        print("\nНе найдено ни одной транзакции, подходящей под ваши условия фильтрации")
 
-#
-# # Задача 4 в модуле 2
-# from src import generators
-# transactions = [
-#       {     "id": 939719570,
-#           "state": "EXECUTED",
-#           "date": "2018-06-30T02:08:58.425572",
-#           "operationAmount": {
-#               "amount": "9824.07",
-#               "currency": {
-#                   "name": "USD",
-#                   "code": "USD"
-#               }
-#           },
-#           "description": "Перевод организации",
-#           "from": "Счет 75106830613657916952",
-#           "to": "Счет 11776614605963066702"
-#       },
-#       {
-#         "id": 1,
-#         "state": "EXECUTED",
-#         "date": "2020-11-04T23:20:05.206878",
-#         "operationAmount": {
-#             "amount": "10000.000",
-#             "currency": {
-#                 "name": "EUR",
-#                 "code": "EUR"
-#             }
-#         },
-#         "description": "Перевод со счета на счет",
-#         "from": "Счет 19708645243227258542",
-#         "to": "Счет 75651667383060284188"
-#       },
-#       {
-#         "id": 2,
-#         "state": "EXECUTED",
-#         "date": "2024-07-04T23:20:05.206878",
-#         "operationAmount": {
-#             "amount": "10999.99",
-#             "currency": {
-#                 "name": "RUB",
-#                 "code": "RUB"
-#             }
-#         },
-#         "description": "Перевод со счета на счет",
-#         "from": "Счет 19708645243227258542",
-#         "to": "Счет 75651667383060284188"
-#       },
-#       {
-#               "id": 142264268,
-#               "state": "EXECUTED",
-#               "date": "2019-04-04T23:20:05.206878",
-#               "operationAmount": {
-#                   "amount": "79114.93",
-#                   "currency": {
-#                       "name": "USD",
-#                       "code": "USD"
-#                   }
-#               },
-#               "description": "Перевод с карты на карту",
-#               "from": "Счет 19708645243227258542",
-#               "to": "Счет 75651667383060284188"
-#        }]
-#
-# usd_transactions = generators.filter_by_currency(transactions, "USD")
-# try:
-#     for _ in range(2):
-#         print(next(usd_transactions))
-# except: pass
-#
-# try:
-#     descriptions = generators.transaction_descriptions(transactions)
-#     for _ in range(5):
-#         print(next(descriptions))
-# except: pass
-#
-# for card_number in generators.card_number_generator(8, 10):
-#     print(card_number)
 
-# # Задача 3 в модуле 2
-# from src import processing
-#
-# transaction_list = [
-#     {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#     {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-#     {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-#     {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-# ]
-#
-# for item in processing.filter_by_state(transaction_list):
-#     print(item)
-# for item in processing.filter_by_state(transaction_list, state="CANCELED"):
-#     print(item)
-# print()
-# for item in processing.sort_by_date(transaction_list, reverse=True):
-#     print(item)
-
-# Задача 2 в модуле 2
-# from src import widget
-#
-#
-# inp_card_or_account = [
-#     "Visa Platinum 7000 7922 8960 6361",
-#     "Maestro 1596837868705199",
-#     "Счет 64686473678894779589",
-#     "MasterCard 7158300734726758",
-#     "Счет 35383033474447895560",
-#     "Visa Classic 6831982476737658",
-#     "Visa Platinum 8990922113665229",
-#     "Visa Gold 5999414228426353",
-#     "Счет 73654108430135874305",
-# ]
-#
-# for i in inp_card_or_account:
-#     print(widget.mask_account_card(i))
-#
-# print(widget.get_date("2024-03-11T02:26:18.671407"))
-
-# Задача 1 в модуле 2
-# from src import masks
-#
-#
-# print(masks.get_mask_card_number(2202567890234554))
-# print(masks.get_mask_account(73654108430135874305))
+if __name__ == "__main__":
+    main()

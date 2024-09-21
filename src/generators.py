@@ -6,7 +6,6 @@ def filter_by_currency(transactions_list, currency):
             transactions_list,
         )
     )
-    print(filtered_transactions)
     if not transactions_list or len(filtered_transactions) == 0:
         yield "Нет транзакций в указанной валюте"
 
